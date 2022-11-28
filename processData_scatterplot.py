@@ -33,6 +33,25 @@ def processTimes(data, times, locations):
     return list
 
 
+def processLocationMax(data, locations):
+    max = 0
+    for location in locations:
+        temp = len(data[(data.location == location)])
+        if (temp > max):
+            max = temp
+    return max
+
+
+def processMax(data, times, locations):
+    max = 0
+    for time in times:
+        df = data.loc[(data.time == time)]
+        temp = processLocationMax(df, locations)
+        if (temp > max):
+            max = temp
+    return max
+
+
 # scatterplot data
 scatterplot_data = data
 scatterplot_data.reset_index(inplace=True)
@@ -42,6 +61,7 @@ scatterplot_data = scatterplot_data.reset_index(drop=True)
 times = scatterplot_data.time.unique()
 locations = scatterplot_data.location.unique()
 locations.sort()
-dict = {"times": processTimes(scatterplot_data, times, locations)}
+dict = {"max": processMax(scatterplot_data, times, locations),
+        "times": processTimes(scatterplot_data, times, locations)}
 with open('processed_data/scatterplotData.json', 'w') as fp:
     json.dump(dict, fp, indent=4, cls=NpEncoder)
