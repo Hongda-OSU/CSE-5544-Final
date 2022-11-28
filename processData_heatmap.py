@@ -52,6 +52,7 @@ def processLocations(data, locations):
         list.append(dict)
     return list
 
+
 # heatmap data
 heatmap_data = data
 heatmap_data.reset_index(inplace=True)

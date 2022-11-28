@@ -4,6 +4,7 @@ import json
 
 data = pd.read_csv('src_data/mc1-reports-data.csv', index_col=0)
 
+
 class NpEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, np.integer):
@@ -14,11 +15,13 @@ class NpEncoder(json.JSONEncoder):
             return obj.tolist()
         return super(NpEncoder, self).default(obj)
 
+
 def processLocations(data, locations):
     obj = {}
     for location in locations:
         obj[str(location)] = len(data[(data.location == location)])
     return obj
+
 
 def processTimes(data, times, locations):
     list = []
@@ -39,8 +42,6 @@ scatterplot_data = scatterplot_data.reset_index(drop=True)
 times = scatterplot_data.time.unique()
 locations = scatterplot_data.location.unique()
 locations.sort()
-
 dict = {"times": processTimes(scatterplot_data, times, locations)}
-
 with open('processed_data/scatterplotData.json', 'w') as fp:
     json.dump(dict, fp, indent=4, cls=NpEncoder)
