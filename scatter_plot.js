@@ -12,4 +12,5 @@ function drawScatterPlot(scatterplot_data, margin, width, height) {
       return d.time;
     })
     .keys();
+
 }

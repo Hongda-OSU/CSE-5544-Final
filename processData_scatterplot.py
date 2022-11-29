@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 
 data = pd.read_csv('src_data/mc1-reports-data.csv', index_col=0)
 
@@ -16,6 +17,8 @@ scatterplot_data.sort_values(
     by=['time'], inplace=True, ascending=True)
 scatterplot_data = scatterplot_data.reset_index(drop=True)
 times = scatterplot_data.time.unique()
+times = times.astype(str)
+times = np.char.replace(times, ' ', 'T')
 locations = scatterplot_data.location.unique()
 locations.sort()
 data = {"time": times,
