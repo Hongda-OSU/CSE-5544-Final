@@ -1,4 +1,4 @@
-const scatterplot_path = "processed_data/scatterplotData.json";
+const scatterplot_path = "processed_data/scatterplotData.csv";
 const heatmap_path = "processed_data/heatMapData.json";
 const histogram_path = "processed_data/histogramData.csv";
 
@@ -8,7 +8,7 @@ var margin = { top: 20, right: 50, bottom: 20, left: 50 },
 
 
 // callback function for d3 data loding function
-d3.json(scatterplot_path, function (error, scatterplot_data) {
+d3.csv(scatterplot_path, function (error, scatterplot_data) {
   if (error) throw error;
   drawScatterPlot(scatterplot_data, margin, width, height);
 });

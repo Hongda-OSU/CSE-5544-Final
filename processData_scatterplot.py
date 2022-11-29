@@ -1,56 +1,13 @@
 import pandas as pd
-import numpy as np
-import json
 
 data = pd.read_csv('src_data/mc1-reports-data.csv', index_col=0)
 
-
-class NpEncoder(json.JSONEncoder):
-    def default(self, obj):
-        if isinstance(obj, np.integer):
-            return int(obj)
-        if isinstance(obj, np.floating):
-            return float(obj)
-        if isinstance(obj, np.ndarray):
-            return obj.tolist()
-        return super(NpEncoder, self).default(obj)
-
-
-def processLocations(data, locations):
-    obj = {}
-    for location in locations:
-        obj[str(location)] = len(data[(data.location == location)])
-    return obj
-
-
-def processTimes(data, times, locations):
+def count(data, times, id):
     list = []
+    df = data.loc[(data.location == id)]
     for time in times:
-        df = data.loc[(data.time == time)]
-        dict = {"time": time,
-                "locations": processLocations(df.reset_index(), locations)}
-        list.append(dict)
+        list.append(len(df[(df.time == time)]))
     return list
-
-
-def processLocationMax(data, locations):
-    max = 0
-    for location in locations:
-        temp = len(data[(data.location == location)])
-        if (temp > max):
-            max = temp
-    return max
-
-
-def processMax(data, times, locations):
-    max = 0
-    for time in times:
-        df = data.loc[(data.time == time)]
-        temp = processLocationMax(df, locations)
-        if (temp > max):
-            max = temp
-    return max
-
 
 # scatterplot data
 scatterplot_data = data
@@ -61,7 +18,28 @@ scatterplot_data = scatterplot_data.reset_index(drop=True)
 times = scatterplot_data.time.unique()
 locations = scatterplot_data.location.unique()
 locations.sort()
-dict = {"max": processMax(scatterplot_data, times, locations),
-        "times": processTimes(scatterplot_data, times, locations)}
-with open('processed_data/scatterplotData.json', 'w') as fp:
-    json.dump(dict, fp, indent=4, cls=NpEncoder)
+data = {"time": times,
+        "location1": count(scatterplot_data, times, 1),
+        "location2": count(scatterplot_data, times, 2),
+        "location3": count(scatterplot_data, times, 3),
+        "location4": count(scatterplot_data, times, 4),
+        "location5": count(scatterplot_data, times, 5),
+        "location6": count(scatterplot_data, times, 6),
+        "location7": count(scatterplot_data, times, 7),
+        "location8": count(scatterplot_data, times, 8),
+        "location9": count(scatterplot_data, times, 9),
+        "location10": count(scatterplot_data, times, 10),
+        "location11": count(scatterplot_data, times, 11),
+        "location12": count(scatterplot_data, times, 12),
+        "location13": count(scatterplot_data, times, 13),
+        "location14": count(scatterplot_data, times, 14),
+        "location15": count(scatterplot_data, times, 15),
+        "location16": count(scatterplot_data, times, 16),
+        "location17": count(scatterplot_data, times, 17),
+        "location18": count(scatterplot_data, times, 18),
+        "location19": count(scatterplot_data, times, 19) }
+df = pd.DataFrame(data)
+df.to_csv(
+    'processed_data/scatterplotData.csv', index=False)
+
+
