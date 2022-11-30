@@ -23,6 +23,13 @@ d3.csv(histogram_path, function (error, histogram_data) {
   drawHistogram(histogram_data, margin, width, height);
 });
 
+function resetScatterPlot() {
+  d3.csv(scatterplot_path, function (error, scatterplot_data) {
+    if (error) throw error;
+    d3.select('#scatter_plot').select("svg").remove();
+    drawScatterPlot(scatterplot_data, margin, width, height);
+  });
+}
 
 // var data = [];
 // d3.csv(pieChart_path, function(d) {

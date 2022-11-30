@@ -17,11 +17,11 @@ scatterplot_data.sort_values(
     by=['time'], inplace=True, ascending=True)
 scatterplot_data = scatterplot_data.reset_index(drop=True)
 times = scatterplot_data.time.unique()
-times = times.astype(str)
-times = np.char.replace(times, ' ', 'T')
+formated_times = times.astype(str)
+formated_times = np.char.replace(formated_times, ' ', 'T')
 locations = scatterplot_data.location.unique()
 locations.sort()
-data = {"time": times,
+data = {"time": formated_times,
         "location1": count(scatterplot_data, times, 1),
         "location2": count(scatterplot_data, times, 2),
         "location3": count(scatterplot_data, times, 3),
