@@ -60,6 +60,8 @@ def processLocations(data, locations):
     for location in locations:
         df = data.loc[(data.location == location)]
         dates = df.date.unique()
+        if ("2020-04-11" in dates):
+            dates = np.delete(dates, -1)
         dict = {"location": location,
                 "dates": processDates(df.reset_index(), dates)}
         list.append(dict)
