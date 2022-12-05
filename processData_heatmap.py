@@ -16,19 +16,32 @@ class NpEncoder(json.JSONEncoder):
         return super(NpEncoder, self).default(obj)
 
 
-def processInformations(data):
+def processInformations(data, date):
     list = []
     for index, row in data.iterrows():
-        damage = {"sewer_and_water": row["sewer_and_water"],
-                  "roads_and_bridges": row["roads_and_bridges"],
-                  "power": row["power"],
-                  "medical": row["medical"],
-                  "buildings": row["buildings"]}
-        dict = {"time": row["time"],
-                "shake_intensity": row["shake_intensity"],
-                "damage": damage
-                }
-        list.append(dict)
+        time = date + "T" + row["time"]
+        if len(list) != 0 and list[-1]['time'] == time:
+            list[-1]['shake_intensity'] = (list[-1]
+                                           ['shake_intensity'] + row["shake_intensity"]) / 2
+            list[-1]['damage']['sewer_and_water'] = (
+                list[-1]['damage']['sewer_and_water'] + row["sewer_and_water"]) / 2
+            list[-1]['damage']['power'] = (
+                list[-1]['damage']['power'] + row["power"]) / 2
+            list[-1]['damage']['medical'] = (
+                list[-1]['damage']['medical'] + row["medical"]) / 2
+            list[-1]['damage']['buildings'] = (
+                list[-1]['damage']['buildings'] + row["buildings"]) / 2
+        else:
+            damage = {"sewer_and_water": row["sewer_and_water"],
+                      "roads_and_bridges": row["roads_and_bridges"],
+                      "power": row["power"],
+                      "medical": row["medical"],
+                      "buildings": row["buildings"]}
+            dict = {"time": time,
+                    "shake_intensity": row["shake_intensity"],
+                    "damage": damage
+                    }
+            list.append(dict)
     return list
 
 
@@ -37,7 +50,7 @@ def processDates(data, dates):
     for date in dates:
         df = data.loc[(data.date == date)]
         dict = {"date": date, "information": processInformations(
-            df.reset_index())}
+            df.reset_index(), date)}
         list.append(dict)
     return list
 
