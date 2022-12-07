@@ -8,6 +8,7 @@
     <!-- D3.js -->
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+    <script src="CheckBox.js"></script>
     <!-- Bootstrap CSS -->
     <link
       rel="stylesheet"
@@ -19,12 +20,7 @@
     <title>AU22 CSE5544 Final</title>
   </head>
 
-  <style>
-    .tooltip {
-      display: inline;
-      position: fixed;
-    }
-  </style>
+  <style></style>
 
   <body>
     <div class="container-fluid">
@@ -33,8 +29,6 @@
           <button type="button" onclick="resetScatterPlot()">Reset</button>
           <div id="scatter_plot"></div>
         </div>
-      </div>
-      <div class="row">
         <div class="col">
           <div id="heat_map"></div>
         </div>
@@ -42,6 +36,9 @@
       <div class="row">
         <div class="col">
           <div id="histogram"></div>
+        </div>
+        <div class="col">
+          <div id="radar_chart"></div>
         </div>
       </div>
     </div>
@@ -57,5 +54,6 @@
     <script type="text/javascript" src="scatter_plot.js"></script>
     <script type="text/javascript" src="heat_map.js"></script>
     <script type="text/javascript" src="histogram.js"></script>
+    <script type="text/javascript" src="radar_chart.js"></script>
   </body>
 </html>
