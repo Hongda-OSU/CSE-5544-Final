@@ -162,7 +162,7 @@ function drawRadarChart(
     .style("fill", "black")
     .style("font-size", 16)
     .style("font-family", "sans-serif")
-    .text("Resources dispatching distribution/plan");
+    .text("Resources dispatching distribution");
 
   //Circular segments
   for (var j = 0; j < RadarChart.levels - 1; j++) {
