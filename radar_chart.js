@@ -11,7 +11,7 @@ function drawRadarChart(
     .attr("width", width + 300) //800
     .attr("height", height + 190) // 600
     .append("g")
-    .attr("transform", "translate(" + 100 + "," + 40 + ")");
+    .attr("transform", "translate(" + 100 + "," + 60 + ")");
 
   var processed_data = [];
   var axes = [
@@ -153,6 +153,16 @@ function drawRadarChart(
       });
     svg.call(checkBox);
   });
+
+  // Add Title
+  svg
+    .append("text")
+    .attr("x", margin.left * 2.5)
+    .attr("y", -40)
+    .style("fill", "black")
+    .style("font-size", 16)
+    .style("font-family", "sans-serif")
+    .text("Resources dispatching distribution/plan");
 
   //Circular segments
   for (var j = 0; j < RadarChart.levels - 1; j++) {

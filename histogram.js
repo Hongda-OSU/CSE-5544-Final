@@ -202,5 +202,5 @@ function drawHistogram(histogram_data, margin, width, height) {
     .style("fill", "black")
     .style("font-size", 16)
     .style("font-family", "sans-serif")
-    .text("Earthquake Intensity and Infrastructure Damage (Average)");
+    .text("Average Earthquake intensity and Infrastructure damage");
 }
