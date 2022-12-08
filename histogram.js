@@ -88,9 +88,36 @@ function drawHistogram(histogram_data, margin, width, height) {
       return i + 1;
     });
 
+  var formatter = d3.format(".2f");
+
+  var tooltip = d3
+    .select("#histogram")
+    .append("div")
+    .style("opacity", 0)
+    .attr("class", "tooltip")
+    .style("background-color", "white")
+    .style("border", "solid")
+    .style("border-width", "1px")
+    .style("border-radius", "5px")
+    .style("padding", "10px");
+
+  var mouseover = function (d) {
+    tooltip.style("opacity", 1);
+  };
+  var mousemove = function (d) {
+    tooltip.html("Value: " + formatter(d[1]));
+    tooltip
+      .style("left", d3.event.pageX + 50 + "px")
+      .style("top", d3.event.pageY + "px");
+  };
+  var mouseleave = function (d) {
+    tooltip.style("opacity", 0);
+  };
+
   // ---------- histograms ------------
-  svg
-    .append("g")
+
+  var histogram = svg.append("g").attr("class", "histogram");
+  histogram
     .attr("id", "rectangles")
     .selectAll("rect")
     .data(function () {
@@ -115,7 +142,10 @@ function drawHistogram(histogram_data, margin, width, height) {
     .attr("height", function (d) {
       return height - y(d[1]);
     })
-    .attr("fill", "#1870d5");
+    .attr("fill", "#1870d5")
+    .on("mouseover", mouseover)
+    .on("mousemove", mousemove)
+    .on("mouseleave", mouseleave);
 
   // Update the histogram
   function updateHistogram(newLocation) {
@@ -142,13 +172,18 @@ function drawHistogram(histogram_data, margin, width, height) {
       .enter()
       .append("rect")
       .attr("transform", function (d) {
-        return "translate(" + (x(d[0]) + x.bandwidth() / 4) + "," + y(d[1]) + ")";
+        return (
+          "translate(" + (x(d[0]) + x.bandwidth() / 4) + "," + y(d[1]) + ")"
+        );
       })
       .attr("width", x.bandwidth() / 2)
       .attr("height", function (d) {
         return height - y(d[1]);
       })
-      .attr("fill", "#1870d5");
+      .attr("fill", "#1870d5")
+      .on("mouseover", mouseover)
+      .on("mousemove", mousemove)
+      .on("mouseleave", mouseleave);
   }
 
   // Turn on the effect

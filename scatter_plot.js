@@ -1,4 +1,10 @@
-function drawScatterPlot(scatterplot_data, margin, width, height) {
+function drawScatterPlot(
+  scatterplot_data,
+  margin,
+  width,
+  height,
+  selected_locations
+) {
   var svg = d3
     .select("#scatter_plot")
     .append("svg")
@@ -26,7 +32,17 @@ function drawScatterPlot(scatterplot_data, margin, width, height) {
     .selectAll("text")
     .style("text-anchor", "center");
 
-  var y = d3.scaleLinear().domain([0, 4500]).range([height, margin.top]);
+  var max = 0;
+  selected_locations.forEach((location) => {
+    temp_max = d3.max(scatterplot_data, function (d) {
+      return +d["location" + location];
+    });
+    if (temp_max > max) {
+      max = temp_max;
+    }
+  });
+
+  var y = d3.scaleLinear().domain([0, max]).range([height, margin.top]).nice();
 
   var yAxis = svg.append("g").attr("class", "yAxis").call(d3.axisLeft(y));
 
@@ -35,7 +51,7 @@ function drawScatterPlot(scatterplot_data, margin, width, height) {
   var report_data = [];
 
   scatterplot_data.map((d) => {
-    locations.forEach((location) => {
+    selected_locations.forEach((location) => {
       report_data.push({
         Time: parseTime(d.time),
         Count: d["location" + location],
@@ -176,4 +192,17 @@ function drawScatterPlot(scatterplot_data, margin, width, height) {
     .text(function (d) {
       return d;
     });
+
+  locations.forEach((location) => {
+    var checkBox = CheckBox();
+    checkBox
+      .x(width + 80)
+      .y(margin.top / 1.3 + (location - 1) * margin.top)
+      .checked(selected_locations.includes(location) ? true : false)
+      .clickEvent(() => {
+        this.checked;
+        redrawScatterPlot(location);
+      });
+    svg.call(checkBox);
+  });
 }
