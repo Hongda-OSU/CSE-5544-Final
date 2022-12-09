@@ -35,6 +35,7 @@ function resetScatterPlot() {
   d3.csv(scatterplot_path, function (error, scatterplot_data) {
     if (error) throw error;
     d3.select("#scatter_plot").select("svg").remove();
+    selected_locations_scatter =  Array.from({ length: 19 }, (_, i) => i + 1);
     drawScatterPlot(scatterplot_data, margin, width, height, selected_locations_scatter);
   });
 }
