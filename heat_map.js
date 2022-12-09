@@ -79,7 +79,7 @@ function drawHeatMap(heatmap_data, margin, width, height) {
   // Draw on the screen
   svg.append("g")
      .attr("transform", "translate(0," + height + ")")
-     .call(d3.axisBottom(x));
+     .call(d3.axisBottom(x).tickSizeOuter(0));
 
   // Add Y Axis
   // Get the label for Y axis
@@ -93,7 +93,7 @@ function drawHeatMap(heatmap_data, margin, width, height) {
 
   // Draw the Y axis
   svg.append("g")
-        .call(d3.axisLeft(y));
+        .call(d3.axisLeft(y).tickSizeOuter(0));
 
 
   // Build the Color Scale
